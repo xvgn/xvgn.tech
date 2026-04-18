@@ -1,0 +1,533 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&display=swap');
+
+:root {
+    --bgColor: #050505;
+    --cardBg: rgba(0, 0, 0, 0.75);
+    --accentColor: #A8A8A8;
+    --font: 'Bitcount Grid Double', sans-serif;
+    --delay: .3s;
+    --glow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+html {
+    background-color: #000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: var(--font);
+    color: #fff;
+
+    /* Настройки фона: прижимаем строго к верхнему краю */
+    background-image: url('background.gif');
+    background-size: cover;
+    background-position: center top; /* Важно: top прижмет гифку к самому верху */
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    
+    /* Затемнение */
+    background-color: rgba(0, 0, 0, 0.6); 
+    background-blend-mode: darken;
+
+    /* Анимация появления */
+    opacity: 0;
+    animation: black-fade-blur 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}   
+
+@keyframes black-fade-blur {
+    0% {
+        opacity: 0;
+        filter: blur(20px) brightness(0);
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        filter: none; /* Это ключевой момент: убираем фильтр совсем */
+        transform: scale(1);
+    }
+}
+
+/* Ссылки (Glassmorphism как в твоем обновлении) */
+#links {
+    max-width: 450px;
+    width: auto;
+    display: block;
+    margin: 0px auto 27px;
+}
+
+.link {
+    position: relative;
+    /* Базовое состояние: чуть более темный и прозрачный фон */
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 2px solid rgba(168, 168, 168, 0.3) !important;
+    border-radius: 10px;
+    color: #ffffff !important;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    margin: 0 10px 10px;
+    padding: 10px;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    overflow: hidden;
+}
+
+.link:hover {
+
+    /* Эффект стекла при наведении */
+    background: rgba(255, 255, 255, 0.15) !important; /* Светлый полупрозрачный фон */
+    backdrop-filter: blur(12px); /* Усиливаем размытие */
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* Делаем границу ярче, имитируя отблеск */
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+        0 8px 32px 0 rgba(0, 0, 0, 0.8), /* Глубокая тень для объема */
+        0 0 15px rgba(255, 255, 255, 0.1); /* Легкое внешнее свечение */
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: #ffffff !important;
+}
+
+/* Добавим легкий блик поверх кнопки */
+.link::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        to right, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent
+    );
+    transition: 1s;
+}
+
+.link:hover::before {
+    left: 150%;
+}
+
+/* Last.fm блок */
+#lastfm {
+    /* Жесткое позиционирование */
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    left: auto !important;
+    
+    /* Размеры */
+    width: 300px;
+    z-index: 99999 !important; /* Выше всего */
+    box-sizing: border-box;
+    
+    /* Твой стиль */
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid var(--accentColor) !important;
+    border-radius: 12px;
+    color: #ffffff;
+    margin: 0 !important;
+    text-align: left; 
+}
+
+#lastfm-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+#lastfm-cover {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid var(--accentColor);
+}
+
+#lastfm-info {
+    flex: 1;
+    text-align: left;
+}
+
+#lastfm-placeholder {
+    width: 60px; /* Размер как у обложки */
+    height: 60px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #555; /* Цвет иконки */
+}
+
+/* Добавь вращение, чтобы выглядело как винил */
+#lastfm-placeholder i {
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Анимированный текст (Bankroll и Copyright) */
+#bankroll, #copyright {
+    color: transparent;
+    text-align: center;
+    background-image: linear-gradient(270deg, #000000, #ffffff, #000000) !important;
+    background-size: 80% !important;
+    background-repeat: no-repeat !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    filter: 
+        drop-shadow(0 0 1px black) 
+        drop-shadow(0 0 2px black) 
+        drop-shadow(0 0 3px rgba(0,0,0,0.8));
+}
+
+/* Профиль и Никнейм */
+#userName {
+    color: #ffffff !important;
+    font-size: 1.75rem;
+    font-weight: bold;
+    line-height: 1.25;
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px var(--accentColor);
+    margin-top: 10px;
+}
+
+#profileImage, #profileVideo {
+    border: 3px solid var(--accentColor);
+    box-shadow: 0 0 20px var(--accentColor);
+    transition: all 0.3s ease;
+}
+
+#profileImage:hover, #profileVideo:hover {
+    border-color: #ffffff;
+    box-shadow: 0 0 30px #ffffff;
+}
+
+#user-profile {
+    max-width: 500px;
+    margin: 140px auto 20px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid var(--accentColor);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#user-profile:hover {
+    transform: translateY(-5px);
+    border-color: #ffffff;
+    box-shadow: 0 0 20px var(--accentColor);
+}
+
+.profile-layout {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.mini-pfp, .mini-video {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.mini-video {
+    display: none;
+}
+
+.user-info {
+    text-align: left;
+    margin-left: 10px;
+    margin-top: -0px !important;
+}
+
+.nickname {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.bio {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.nickname-container {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    min-height: 1.5rem; /* Резервируем место, чтобы блок не дергался */
+}
+
+#cursor {
+    margin-left: 2px;
+    color: var(--accentColor);
+    font-weight: normal;
+}
+
+#bankroll {
+    margin: 30px 0 !important;
+    animation: animateRightToLeft 5s linear infinite !important;
+}
+
+#copyright {
+    margin: 60px 0 30px !important;
+    animation: animate 5s linear infinite !important;
+}
+
+/* Анимации */
+@keyframes transitionAnimation {
+    0% { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes animateRightToLeft {
+    0% { background-position: 500%; }
+    100% { background-position: -500%; }
+}
+
+@keyframes animate {
+    0% { background-position: -500%; }
+    100% { background-position: 500%; }
+}
+
+@keyframes glowPulse {
+    0%, 100% { text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff69b4; }
+    50% { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 40px #ff69b4, 0 0 80px #ff1493; }
+}
+
+@keyframes fly {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    5% { opacity: 0.9; }
+    95% { opacity: 0.9; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+.profile-icons {
+    display: flex !important;      /* Включаем гибкий контейнер */
+    justify-content: center;      /* Центрируем иконки по горизонтали */
+    align-items: center;          /* Выравниваем по вертикали */
+    gap: 15px;                    /* Расстояние между иконками */
+    margin-top: 15px;             /* Отступ от текста био */
+    width: 100%;                  /* Растягиваем на всю ширину карточки */
+}
+
+/* Контейнер иконки */
+.icon-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.profile-icons::before {
+    content: "top-tier ra(c)(p)ist"; /* Текст, который ты хотел */
+    position: absolute;
+    bottom: 100%; /* Размещаем строго над иконками */
+    left: 0;
+    margin-bottom: 8px; /* Расстояние между текстом и иконоками */
+    
+    /* Стилизация под скриншот */
+    padding: 4px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Тонкая светлая граница */
+    border-radius: 20px; /* Овальная форма */
+    
+    /* Шрифт и цвет */
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    white-space: nowrap;
+    
+    /* Эффект стекла (опционально, для стиля сайта) */
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(2px);
+}
+
+/* Облачко с текстом (теперь снизу) */
+.icon-item::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 130%; /* Смещаем вниз относительно иконки */
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px); /* Анимация пойдет снизу вверх */
+    
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 10;
+}
+
+/* Маленький треугольник (теперь сверху облачка) */
+.icon-item::before {
+    content: '';
+    position: absolute;
+    top: 110%; /* Чуть выше самого облачка */
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    
+    /* Переворачиваем треугольник: теперь он смотрит ВВЕРХ */
+    border-width: 0 6px 6px 6px; 
+    border-style: solid;
+    border-color: transparent transparent rgba(0, 0, 0, 0.85) transparent;
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 10;
+}
+
+/* Эффект при наведении */
+.icon-item:hover::after,
+.icon-item:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Эффект при наведении конкретно на лапку */
+.icon-item:hover .fa-paw {
+    color: #ff8c00 !important; /* Насыщенный оранжевый цвет */
+    filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.8)); /* Оранжевое свечение */
+    transform: scale(1.1); /* Легкое увеличение для динамики */
+    transition: all 0.3s ease; /* Плавный переход */
+}
+
+.profile-layout {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative; /* Важно для фиксации иконок */
+    padding-bottom: 25px; /* Резервируем место под иконки снизу */
+}
+
+.profile-icons {
+    position: absolute; /* Вырываем из потока текста */
+    bottom: 0;         /* Прижимаем к низу макета */
+    left: 115px;       /* Сдвигаем вправо, чтобы не наезжали на аватар (100px аватар + 15px gap) */
+    display: flex !important;
+    justify-content: flex-start;
+    gap: 12px;
+    width: auto;
+}
+
+.icon-item {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Маленький треугольник под облачком */
+.icon-item::before {
+    content: '';
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 10;
+}
+
+/* Эффект при наведении */
+.icon-item:hover::after,
+.icon-item:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.icon-item:hover {
+    color: var(--accentColor);
+    transform: translateY(-2px);
+}
+
+/* Единый стиль для всех карточек (Профиль и Last.fm) */
+#user-profile, #lastfm {
+    background: rgba(0, 0, 0, 0.6) !important; /* Твой цвет из .link */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(168, 168, 168, 0.3) !important; /* Полупрозрачная граница */
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Эффект наведения для карточки профиля */
+#user-profile:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Убираем лишний курсор-указатель с текста, если теперь кликаем только по аве */
+#user-profile {
+    cursor: default;
+}
+
+#profileContainer {
+    cursor: pointer; /* Указатель только на фото */
+}
+
+/* Применяем ко всем карточкам и кнопкам */
+#user-profile, #lastfm, .link, .side-widget, .side-log {
+    transition: transform 0.1s ease-out, box-shadow 0.2s ease;
+    will-change: transform; /* Оптимизация для браузера */
+}
+
+/* Опционально: можно добавить легкое свечение, которое тоже "двигается" */
+.parallax-glow {
+    box-shadow: var(--tilt-x) var(--tilt-y) 20px rgba(255, 255, 255, 0.05);
+}
